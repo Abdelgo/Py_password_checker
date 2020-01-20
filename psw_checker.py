@@ -7,21 +7,26 @@ import hashlib
 def request_api_data(query_sha):
     url = 'https://api.pwnedpasswords.com/range/'+ query_sha
     res = requests.get(url)
-    print(res.status_code)
-    print(res.text)
+    #print(res.status_code)
+    #print(res.text)
     if res.status_code != 200:
         raise RuntimeError(f'status code error {res.status_code} check the API adress')
     else:
-        return res
+        return res.text
 
 
 
-def password_searched(*args):
-    passwrd = hashlib.sha1('koukou'.encode('utf-8')).hexdigest().upper()
-    #print(encode(passwrd, 'utf-8'))
-    print(passwrd)
+def password_searched(password):
+    for i in password:
+        pswrd = hashlib.sha1(i.encode('utf-8')).hexdigest().upper()
+        firstchar, lastchar  = pswrd[:5], pswrd[5:]
+        print(f'1st5char : {firstchar} second part is : {lastchar}')
+        response = request_api_data(firstchar)
+        print(response)
 
 
 
-password_searched(1)
+listr = ('password1', 'password2')
+password_searched(listr)
+
 #request_api_data('123')
