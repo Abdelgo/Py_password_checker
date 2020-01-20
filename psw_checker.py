@@ -1,8 +1,9 @@
 #library needed
 import requests
+import hashlib
 
 
-
+# function to communicate with api to check sha1 password looked for
 def request_api_data(query_sha):
     url = 'https://api.pwnedpasswords.com/range/'+ query_sha
     res = requests.get(url)
@@ -16,6 +17,11 @@ def request_api_data(query_sha):
 
 
 def password_searched(*args):
-    pass
+    passwrd = hashlib.sha1('koukou'.encode('utf-8')).hexdigest().upper()
+    #print(encode(passwrd, 'utf-8'))
+    print(passwrd)
 
-request_api_data('123')
+
+
+password_searched(1)
+#request_api_data('123')
