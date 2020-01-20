@@ -1,6 +1,7 @@
 #library needed
 import requests
 import hashlib
+import sys
 
 
 # function to communicate with api to check sha1 password looked for
@@ -43,9 +44,12 @@ def passwordloop(thelist):
             print(f"your password '{item}' has been used {count} times, you may change it for more security\n")
         else:
             print(f"you can go with your '{item}' password its okeyy\n")    
-    return 'done'
+    return 'done !'
 
 
 #starting the loop over the program
-listr = ('8batata8','toto','seflkgdfkjdqsldkez')
-passwordloop(listr)
+#listr = ('batata','toto','seflkgdfkjdqsldkez')
+#passwordloop(listr)
+
+if __name__ == '__main__':
+    sys.exit(passwordloop(sys.argv[1:]))
