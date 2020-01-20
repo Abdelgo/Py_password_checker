@@ -14,19 +14,40 @@ def request_api_data(query_sha):
     else:
         return res.text
 
+def password_checker(allpass, hashtocheck,password):
+    allpass = (line.split(':') for line in allpass.splitlines())
+    print(hashtocheck)
+    #print(list(allpass))
+    for h, count in allpass:
+        if h == hashtocheck:
+            return count, password
+        else:
+            pass
+    return 0,password
 
 
 def password_searched(password):
     for i in password:
+        print(i)
         pswrd = hashlib.sha1(i.encode('utf-8')).hexdigest().upper()
         firstchar, lastchar  = pswrd[:5], pswrd[5:]
-        print(f'1st5char : {firstchar} second part is : {lastchar}')
+        #print(f'1st5char : {firstchar} second part is : {lastchar}')
         response = request_api_data(firstchar)
-        print(response)
+        print(type(response))
+        print(i)
+        return password_checker(response, lastchar,i)
 
 
 
-listr = ('password1', 'password2')
-password_searched(listr)
 
+def passwordloop(thelist):
+    count,password = password_searched(thelist)
+    print(password)
+    if count:
+        print(f'your password {password} has been used {count} times')
+    else:
+        print(f'you can go with your {password} its okeyy')    
+
+listr = ('batata','toto')
+passwordloop(listr)
 #request_api_data('123')
