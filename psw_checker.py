@@ -10,44 +10,41 @@ def request_api_data(query_sha):
     #print(res.status_code)
     #print(res.text)
     if res.status_code != 200:
-        raise RuntimeError(f'status code error {res.status_code} check the API adress')
+        raise RuntimeError(f'status code error {res.status_code} check the API adress\n')
     else:
         return res.text
 
-def password_checker(allpass, hashtocheck,password):
+#checking if the password have ever been used and how many times
+def password_checker(allpass, hashtocheck):
     allpass = (line.split(':') for line in allpass.splitlines())
-    print(hashtocheck)
-    #print(list(allpass))
+    #print(allpass) allpass is a generator that we can loop over!
     for h, count in allpass:
         if h == hashtocheck:
-            return count, password
+            return count
         else:
             pass
-    return 0,password
+    return 0
 
-
+#password transformation to SHA1 and split in 2 parts
 def password_searched(password):
-    for i in password:
-        print(i)
-        pswrd = hashlib.sha1(i.encode('utf-8')).hexdigest().upper()
-        firstchar, lastchar  = pswrd[:5], pswrd[5:]
-        #print(f'1st5char : {firstchar} second part is : {lastchar}')
-        response = request_api_data(firstchar)
-        print(type(response))
-        print(i)
-        return password_checker(response, lastchar,i)
+    pswrd = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
+    firstchar, lastchar  = pswrd[:5], pswrd[5:]
+    #print(f'1st5char : {firstchar} second part is : {lastchar}')
+    response = request_api_data(firstchar)
+    return password_checker(response, lastchar)
 
 
 
-
+#the password_loop over the list password to be checked
 def passwordloop(thelist):
-    count,password = password_searched(thelist)
-    print(password)
-    if count:
-        print(f'your password {password} has been used {count} times')
-    else:
-        print(f'you can go with your {password} its okeyy')    
+    for item in thelist:
+        count = password_searched(item)
+        if count:
+            print(f"your password '{item}' has been used {count} times, you may change it for more security\n")
+        else:
+            print(f"you can go with your '{item}' password its okeyy\n")    
 
-listr = ('batata','toto')
+
+#starting the loop over the program
+listr = ('batata','toto','seflkgdfkjdqsldkez')
 passwordloop(listr)
-#request_api_data('123')
