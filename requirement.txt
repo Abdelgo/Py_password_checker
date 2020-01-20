@@ -1,0 +1,7 @@
+# Python version
+Python==Python 3.7.3
+
+#Requests library
+requests==2.22.0
+
+
